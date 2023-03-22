@@ -17,7 +17,13 @@ function sort!(d::OrderedDict; byvalue::Bool=false, args...)
     return d
 end
 
-sort(d::OrderedDict; args...) = sort!(copy(d); args...)
+function sort!(d::OrderedSet; kwargs...)
+    sort!(d.dict; kwargs...)
+    return d
+end
+
+sort(d::Union{OrderedDict,OrderedSet}; args...) = sort!(copy(d); args...)
+
 @deprecate sort(d::Dict; args...) sort!(OrderedDict(d); args...)
 
 function sort(d::LittleDict; byvalue::Bool=false, args...)
